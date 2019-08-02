@@ -1,0 +1,13 @@
+{
+    "name": "illusorium/koseven-cache-redis",
+    "description": "Simplest Redis implementation of cache module for koseven framework",
+    "type": "kohana-module",
+    "keywords": ["kohana", "koseven", "helper", "module", "predis"],
+    "homepage": "https://github.com/illusorium/koseven-cache-redis",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.2.4",
+        "koseven/koseven": "^3.3",
+        "predis/predis": "^1.1"
+    }
+}
