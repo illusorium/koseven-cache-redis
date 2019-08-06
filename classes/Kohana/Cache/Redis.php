@@ -25,6 +25,9 @@ class Kohana_Cache_Redis extends Cache
 
 	public function set($id, $data, $lifetime = null)
 	{
+        if (null === $lifetime) {
+            $lifetime = $this->config('default_expire');
+        }
         return $this->redisClient->setex($id, $lifetime ?: Cache::DEFAULT_EXPIRE, serialize($data));
 	}
 
