@@ -23,6 +23,15 @@ class Kohana_Cache_Redis extends Cache
 	    return $default;
 	}
 
+	public function hget($key, $field, $default = null)
+    {
+        if ($this->redisClient->hexists($key, $field)) {
+            $data = $this->redisClient->hget($key, $field);
+            return unserialize($data);
+        }
+        return $default;
+    }
+
 	public function set($id, $data, $lifetime = null)
 	{
         if (null === $lifetime) {
@@ -30,6 +39,19 @@ class Kohana_Cache_Redis extends Cache
         }
         return $this->redisClient->setex($id, $lifetime ?: Cache::DEFAULT_EXPIRE, serialize($data));
 	}
+
+    public function hset($key, $field, $data, $lifetime = null)
+    {
+        $exists = $this->redisClient->exists($key);
+        if (null === $lifetime) {
+            $lifetime = $this->config('default_expire');
+        }
+        $hsetResult = $this->redisClient->hset($key, $field, serialize($data));
+        if (!$exists) {
+            $this->redisClient->expire($key, $lifetime ?: Cache::DEFAULT_EXPIRE);
+        }
+        return $hsetResult;
+    }
 
 	public function delete($id)
 	{
