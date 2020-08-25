@@ -13,6 +13,12 @@ class Kohana_Cache_Redis extends Cache
         $connectionParams = Arr::get($config, 'connection');
         $this->redisClient = new Client($connectionParams);
     }
+    
+        
+    public function exists($key)
+    {
+        return $this->redisClient->exists($key);
+    }
 
     public function get($id, $default = null)
     {
